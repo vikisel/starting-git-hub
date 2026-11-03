@@ -12,7 +12,7 @@
 #       (fast-forward only), and merge GitHub's changes in when both sides changed
 #       without a conflict. Everything else for a branch with uncommitted changes
 #       waits for its commit.
-#     - merging finished branches into main (git land) and updating the children
+#     - merging finished branches into main (git land-main) and updating the children
 #       from main (git sync-children). These wait until the actions above are done
 #       and main itself has no conflict; until then they show a dash and "do items
 #       ... first".
@@ -29,7 +29,7 @@
 #
 #   It never rebases, never force-pushes, never resolves conflicts itself, and
 #   never deletes a branch or any of your files (only its own temporary
-#   folders). Main is only changed through git land, for the branches you pick.
+#   folders). Main is only changed through git land-main, for the branches you pick.
 #   Branches other than the active one are merged in temporary folders. The
 #   active branch is changed in your working folder (commit, pull, merge).
 #
@@ -41,7 +41,7 @@
 #   It calls other tools only through their git aliases, never by file name:
 #     git status-all     (the table, and the state as JSON)
 #     git sync-children  (merges main into the children)
-#     git land           (merges the branches you pick into main)
+#     git land-main           (merges the branches you pick into main)
 #     git resolve-conflict  (only when you pick a conflict from the list)
 #     rehearse.ps1       (only for -DryRun; run from this folder, it has no alias)
 #
@@ -71,14 +71,14 @@ if (-not (Test-Path -LiteralPath $common)) {
 # (the variable below is inherited by the scripts they call).
 $topLevel = -not $env:GIT_SCRIPTS_NESTED
 $env:GIT_SCRIPTS_NESTED = '1'
-$env:GIT_SCRIPTS_FROM_BEFORE = '1'   # tells git land it was called from here
+$env:GIT_SCRIPTS_FROM_BEFORE = '1'   # tells git land-main it was called from here
 
 try {
 
 # ---------- checks ----------
 Assert-GitRepo
 
-Require-Aliases (@('status-all', 'sync-children', 'land', 'resolve-conflict'))
+Require-Aliases (@('status-all', 'sync-children', 'land-main', 'resolve-conflict'))
 
 # A merge that is still open (conflicts being fixed) must be finished or given up first,
 # otherwise its half-fixed files would look like ordinary uncommitted changes.

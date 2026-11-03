@@ -1,7 +1,7 @@
 # rehearse.ps1
 #
 # SUMMARY
-#   Runs git before, git after or git land as a full rehearsal on a throwaway copy of your
+#   Runs git before, git after or git land-main as a full rehearsal on a throwaway copy of your
 #   repo, so you see the real run with the real questions and the real results,
 #   and nothing real changes. git before -DryRun and git after -DryRun call this.
 #
@@ -27,15 +27,17 @@
 #   extra).
 #
 #   Requires: Git 2.38 or newer, and the aliases of the command you rehearse.
-#   Usage:    rehearse.ps1 before | after | land   (the scripts run it for -DryRun; it has no alias)
-#   (or simply git before -DryRun / git after -DryRun / git land -DryRun)
+#   Usage:    rehearse.ps1 before | after | land-main   (the scripts run it for -DryRun; it has no alias)
+#   (or simply git before -DryRun / git after -DryRun / git land-main -DryRun)
 
 param(
     [Parameter(Mandatory = $true, Position = 0)]
-    [ValidateSet('before', 'after', 'land')]
+    [ValidateSet('before', 'after', 'land', 'land-main')]
     [string]$Command,
     [string]$Main = 'main'
 )
+
+if ($Command -eq 'land') { $Command = 'land-main' }   # the old name still works
 
 # Shared helpers (see shared-functions.ps1). It sits in the same folder as this script.
 $common = Join-Path $PSScriptRoot 'shared-functions.ps1'

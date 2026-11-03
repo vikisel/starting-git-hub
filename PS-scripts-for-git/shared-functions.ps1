@@ -131,7 +131,7 @@ function Assert-GitRepo {
 # up front, before anything runs, and the exact command is printed for each one that is not.
 function Require-Aliases($names) {
     $files = @{
-        'before' = 'git-before.ps1'; 'after' = 'git-after.ps1'; 'land' = 'land.ps1'
+        'before' = 'git-before.ps1'; 'after' = 'git-after.ps1'; 'land-main' = 'land-main-to-children.ps1'
         'status-all' = 'status-all.ps1'; 'sync-children' = 'sync-children-to-main.ps1'
         'show-conflict' = 'show-conflict.ps1'; 'resolve-conflict' = 'resolve-conflict.ps1'
     }
@@ -588,7 +588,7 @@ function Invoke-OpenList($Main, $scope) {
             Write-Host ""
             $mainBefore = git rev-parse ("refs/remotes/origin/" + $Main)
             $landNames = @($picked | Where-Object { $_.Kind -eq 'land' } | ForEach-Object { $_.Name })
-            git land -Main $Main -NoFetch -Only ($landNames -join ',')
+            git land-main -Main $Main -NoFetch -Only ($landNames -join ',')
             Pass-Exit
             $landCode = $LASTEXITCODE
             $mainAfter = git rev-parse ("refs/remotes/origin/" + $Main)
@@ -602,7 +602,7 @@ function Invoke-OpenList($Main, $scope) {
                 else { $skipTable = $true }   # you chose not to merge anything: show the list again, not the table
             }
             else {
-                Write-Host "git land did not finish (see the message above)." -ForegroundColor Red
+                Write-Host "git land-main did not finish (see the message above)." -ForegroundColor Red
                 $failed = $true
             }
         }

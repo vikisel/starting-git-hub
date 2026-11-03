@@ -7,7 +7,7 @@
 #   It fetches, prints the table from git status-all and then ONE list of what is
 #   open, the same list and the same keys as in git before, but limited to putting
 #   your work on GitHub: commit the uncommitted changes, publish local-only
-#   branches, push, merge finished branches into main (git land) and update the
+#   branches, push, merge finished branches into main (git land-main) and update the
 #   children from main (git sync-children). Conflicts are shown as well, and you
 #   can fix them from the list. Items that have to wait for another one show a
 #   dash and what they wait for. Pulls and merges of other branches are left to
@@ -19,7 +19,7 @@
 #
 #   It never rebases, never
 #   force-pushes, never resolves conflicts, and never deletes a branch or a
-#   file. Main is only changed through git land, for the branches you pick.
+#   file. Main is only changed through git land-main, for the branches you pick.
 #   -DryRun rehearses the whole run: the same questions and the same results,
 #   but on a throwaway copy of the repo and a stand-in for GitHub, so nothing real
 #   changes (it runs rehearse.ps1 after).
@@ -29,7 +29,7 @@
 #   It calls other tools only through their git aliases, never by file name:
 #     git status-all     (the table, and the state as JSON)
 #     git sync-children  (merges main into the children)
-#     git land           (merges the branches you pick into main)
+#     git land-main           (merges the branches you pick into main)
 #     rehearse.ps1       (only for -DryRun; run from this folder, it has no alias)
 #
 #   When a run you typed yourself ends, it prints a horizontal line and an empty
@@ -64,7 +64,7 @@ try {
 # ---------- checks ----------
 Assert-GitRepo
 
-Require-Aliases (@('status-all', 'sync-children', 'land', 'resolve-conflict'))
+Require-Aliases (@('status-all', 'sync-children', 'land-main', 'resolve-conflict'))
 
 # A merge that is still open (conflicts being fixed) must be finished or given up first,
 # otherwise its half-fixed files would look like ordinary uncommitted changes.

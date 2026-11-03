@@ -41,7 +41,7 @@
 #   chose A and the merge was aborted.
 #
 #   -DryRun shows what it would do and changes nothing. During a rehearsal
-#   (git before -DryRun, git land -DryRun) it behaves as -DryRun.
+#   (git before -DryRun, git land-main -DryRun) it behaves as -DryRun.
 #
 #   It never rebases, never force-pushes, never resolves a conflict, never deletes
 #   anything. It calls git status-all (through its alias) to read the state.
